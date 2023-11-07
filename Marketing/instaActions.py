@@ -37,7 +37,7 @@ def instaActionsFunction(username, password):
         df = pd.read_excel(f'{username}.xlsx')
         
         if len(df.loc[df['Contacted'] == False]) > 0:
-            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:20]
+            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:25]
 
             for user in users_to_contact:
                 df.loc[df['Follower'] == user, 'Contacted'] = True
