@@ -190,15 +190,13 @@ def scrape(user, password, scrapeUser):
                     button_text = follow_buttons[idx].text  # Try to get the text from the corresponding "Follow" button
                     if(button_text == "Follow"):
                         followers.add(follower.text)
-                    print(f'Button text for follower {follower.text}: {button_text}')
                     
                 except IndexError:
-                    print(f'Could not find button for follower {follower.text}')
+                    pass
             
             print(len(followers))
             if len(followers) >= limit:
                 break
-        print(time.sleep(5000))
         # Filter followers and create DataFrame
         # Filter followers and create DataFrame
         filtered_followers = filter_human_accounts(list(followers))
