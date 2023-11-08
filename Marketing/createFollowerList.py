@@ -65,7 +65,7 @@ def filter_human_accounts(followers_list):
                     'survey', 'quiz', 'question', 'inquiry', 'form', 
                     'report', 'download', 'access', 'login', 'signup', 
                     'register', 'enroll', 'join', 'start', 'launch', 
-                    'event', 'session', 'workshop', 'course', 'lesson', 
+                    'event', 'session', 'workshop', 'course', 'lesson', 'jonahliss',
                     'module', 'tutorial', 'guide', 'manual', 'book', 
                     'read', 'learn', 'educate', 'train', 'develop', 
                     'skill', 'talent', 'career', 'job', 'employment', 
@@ -172,7 +172,7 @@ def scrape(user, password, scrapeUser):
             elapsed_time = (datetime.datetime.now() - start_time).total_seconds()
 
             # Break the loop if elapsed time is more than 60 seconds
-            if elapsed_time > 1800:
+            if elapsed_time > 600:
                 print("Exiting loop after 10 mins")
                 break
 
@@ -181,9 +181,9 @@ def scrape(user, password, scrapeUser):
 
             time.sleep(1)
             soup = BeautifulSoup(html, 'html.parser')
-            followers_tmp = soup.findAll('span', class_='_aacl _aaco _aacw _aacx _aad7 _aade')
-            follow_buttons = driver.find_elements(By.CSS_SELECTOR, 'button._acan div._aacl')  # Locate all "Follow" buttons
-
+            followers_tmp = soup.findAll('span', class_='_ap3a _aaco _aacw _aacx _aad7 _aade')
+            follow_buttons = driver.find_elements(By.CSS_SELECTOR, 'button._acan')  # Locate all "Follow" buttons
+            
             for idx, follower in enumerate(followers_tmp):
                 
                 try:
@@ -198,7 +198,7 @@ def scrape(user, password, scrapeUser):
             print(len(followers))
             if len(followers) >= limit:
                 break
-
+        print(time.sleep(5000))
         # Filter followers and create DataFrame
         # Filter followers and create DataFrame
         filtered_followers = filter_human_accounts(list(followers))

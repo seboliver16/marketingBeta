@@ -90,8 +90,8 @@ def process_account(account, password, scrapeUser, blocked):
     try:
         createFollowerListLogic(account, password, scrapeUser, blocked)
         unfollowLogic(account, password, blocked)
-        # if processed_accounts_today[account]["follow"] < 2:
-        #     instaActionsLogic(account, password, blocked)
+        if processed_accounts_today[account]["follow"] < 2:
+            instaActionsLogic(account, password, blocked)
         
     except Exception as e:
         logging.error(f"Error processing account {account}: {e}")

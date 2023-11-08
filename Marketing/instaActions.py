@@ -52,8 +52,9 @@ def instaActionsFunction(username, password):
                     time.sleep(3)
                     follow_button = wait.until(EC.presence_of_element_located(
                         (By.CSS_SELECTOR, "div.x6s0dn4.x78zum5.x1q0g3np.xs83m0k.xeuugli.x1n2onr6 button._acan._acap._acas._aj1-")))
-                    follow_button.click()
-                    time.sleep(2)
+                    print(follow_button.text)
+                    if follow_button.text == "Follow":
+                        follow_button.click()
                 except:
                     couldntFollowCount += 1
                     print("Could Not Follow")
