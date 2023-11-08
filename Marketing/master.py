@@ -65,8 +65,9 @@ def instaActionsLogic(account, password, blocked):
                 processed_accounts_today[account]["follow"] = followCount + 1
             except Exception as e:
                 logging.error(f"Error with instaActionsFunction for account {account}: {e}")
-            print("sleeping for 5 mins")
-            time.sleep(150)  # This is to respect Instagram's rate limits
+            print("sleeping for 3 mins")
+            print(datetime.now(eastern))
+            time.sleep(180)  # This is to respect Instagram's rate limits
 
 
 def createFollowerListLogic(account, password, scrapeUser, blocked):
@@ -89,8 +90,8 @@ def process_account(account, password, scrapeUser, blocked):
     try:
         createFollowerListLogic(account, password, scrapeUser, blocked)
         unfollowLogic(account, password, blocked)
-        if processed_accounts_today[account]["follow"] < 2:
-            instaActionsLogic(account, password, blocked)
+        # if processed_accounts_today[account]["follow"] < 2:
+        #     instaActionsLogic(account, password, blocked)
         
     except Exception as e:
         logging.error(f"Error processing account {account}: {e}")

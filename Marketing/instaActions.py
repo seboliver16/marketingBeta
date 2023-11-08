@@ -18,8 +18,10 @@ def instaActionsFunction(username, password):
     suspended_url = "https://discord.com/api/webhooks/1169477980045725788/IM2e3GpkGGwXFvvHemH6wSCQ8-UBXFXkhjtsldQp7h7T2RZqXWzUv982B9CbXptc0xjb"
     print("TRYING", username)
 
-    driver = webdriver.Chrome()
-    wait = WebDriverWait(driver, 10)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    driver = webdriver.Chrome(options=options)
+    wait = WebDriverWait(driver, 5)
     couldntFollowCount = 0
 
     try:
@@ -37,7 +39,7 @@ def instaActionsFunction(username, password):
         df = pd.read_excel(f'{username}.xlsx')
         
         if len(df.loc[df['Contacted'] == False]) > 0:
-            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:25]
+            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:20]
 
             for user in users_to_contact:
                 df.loc[df['Follower'] == user, 'Contacted'] = True

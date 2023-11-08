@@ -13,7 +13,9 @@ from datetime import datetime, timedelta
 
 
 def unfollowFunction(account, password):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
            
     driver.get('https://www.instagram.com/accounts/login/')
