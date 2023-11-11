@@ -56,8 +56,8 @@ def unfollowLogic(account, password, blocked):
 
 def instaActionsLogic(account, password, blocked):
     now = datetime.now(eastern)
-    
-    if ((now.hour >= 7   and processed_accounts_today[account]["follow"] < 1) or(now.hour >= 15 and processed_accounts_today[account]["follow"] < 2)) and not blocked and instaActions_count.get(account, 0) < 2 and can_run(account, 'instaActions'):
+
+    if ((now.hour >= 7   and processed_accounts_today[account]["follow"] < 2) or(now.hour >= 15 and processed_accounts_today[account]["follow"] < 3)) and not blocked and instaActions_count.get(account, 0) < 2 and can_run(account, 'instaActions'):
         if os.path.exists(f"{account}.xlsx"):
             followCount = processed_accounts_today[account]["follow"]
             try:
@@ -90,7 +90,7 @@ def process_account(account, password, scrapeUser, blocked):
     try:
         createFollowerListLogic(account, password, scrapeUser, blocked)
         unfollowLogic(account, password, blocked)
-        if processed_accounts_today[account]["follow"] < 2:
+        if processed_accounts_today[account]["follow"] < 3:
             instaActionsLogic(account, password, blocked)
         
     except Exception as e:
@@ -122,7 +122,7 @@ def main():
                 if account not in processed_accounts_today:
                     processed_accounts_today[account] = { "follow": 0}
 
-                if processed_accounts_today[account]["follow"] > 1:
+                if processed_accounts_today[account]["follow"] > 2:
                     
                     continue
 
