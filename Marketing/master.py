@@ -45,7 +45,7 @@ def unfollowLogic(account, password, blocked):
         instaActions_count.clear()
         current_day = now.day
 
-    if 0 <= now.hour <= 6 and not blocked and unfollow_count.get(account, 0) < 2 and can_run(account, 'unfollow'):
+    if 0 <= now.hour <= 5 and not blocked and unfollow_count.get(account, 0) < 2 and can_run(account, 'unfollow'):
         logging.error(f"Unfollowing for {account}")
         time.sleep(0 * unfollow_count.get(account, 0))  # Consider adjusting this delay based on the specific rate limit requirements
         try:
@@ -57,7 +57,7 @@ def unfollowLogic(account, password, blocked):
 def instaActionsLogic(account, password, blocked):
     now = datetime.now(eastern)
 
-    if ((now.hour >= 7   and processed_accounts_today[account]["follow"] < 2) or(now.hour >= 15 and processed_accounts_today[account]["follow"] < 3)) and not blocked and instaActions_count.get(account, 0) < 2 and can_run(account, 'instaActions'):
+    if ((now.hour >= 6   and processed_accounts_today[account]["follow"] < 5)) and not blocked and instaActions_count.get(account, 0) < 5 and can_run(account, 'instaActions'):
         if os.path.exists(f"{account}.xlsx"):
             followCount = processed_accounts_today[account]["follow"]
             try:
@@ -90,7 +90,7 @@ def process_account(account, password, scrapeUser, blocked):
     try:
         createFollowerListLogic(account, password, scrapeUser, blocked)
         unfollowLogic(account, password, blocked)
-        if processed_accounts_today[account]["follow"] < 3:
+        if processed_accounts_today[account]["follow"] < 5:
             instaActionsLogic(account, password, blocked)
         
     except Exception as e:
@@ -122,7 +122,7 @@ def main():
                 if account not in processed_accounts_today:
                     processed_accounts_today[account] = { "follow": 0}
 
-                if processed_accounts_today[account]["follow"] > 2:
+                if processed_accounts_today[account]["follow"] > 5:
                     
                     continue
 
