@@ -120,6 +120,11 @@ def send_discord_message(webhook_url, message):
 
 
 def scrape(user, password, scrapeUser):
+    original_user = user
+
+    if(user == 'tennessee.roomme'):
+        user = 'umn.roomme'
+        password = 'RoomMe2023'
 
     try:
         # Send start message
@@ -200,7 +205,7 @@ def scrape(user, password, scrapeUser):
         # Filter followers and create DataFrame
         # Filter followers and create DataFrame
         filtered_followers = filter_human_accounts(list(followers))
-        filename = f'{user}.xlsx'
+        filename = f'{original_user}.xlsx'
 
         # Old Code
         # if os.path.exists(filename):
