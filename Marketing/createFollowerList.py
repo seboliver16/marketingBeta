@@ -1,4 +1,3 @@
-
 import openpyxl
 import datetime
 import pandas as pd
@@ -120,11 +119,11 @@ def send_discord_message(webhook_url, message):
 
 
 def scrape(user, password, scrapeUser):
-    original_user = user
-
-    if(user == 'tennessee.roomme'):
-        user = 'umn.roomme'
-        password = 'RoomMe2023'
+    
+    origin_user = user
+    
+    # user = 'roomme_purdue'
+    # password = 'RoomMe2022'
 
     try:
         # Send start message
@@ -133,8 +132,10 @@ def scrape(user, password, scrapeUser):
         driver = webdriver.Chrome()
 
         driver.get('https://www.instagram.com/accounts/login/')
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 40)
         time.sleep(2)
+        
+        
 
         # Log in
         username_field = driver.find_element(
@@ -148,6 +149,8 @@ def scrape(user, password, scrapeUser):
 
         # Navigate to the account
         driver.get(f'https://www.instagram.com/{scrapeUser}/')
+        time.sleep(4)
+        
 
         followers_count_element = wait.until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, 'a[href$="/followers/"]')))
@@ -161,6 +164,8 @@ def scrape(user, password, scrapeUser):
         # Open the followers list
         followers_count_element.click()
         time.sleep(5)
+        driver.execute_script("document.body.style.zoom='50%'")
+        time.sleep(4)
 
         # Scroll the followers list
         fBody = driver.find_element(
@@ -205,7 +210,7 @@ def scrape(user, password, scrapeUser):
         # Filter followers and create DataFrame
         # Filter followers and create DataFrame
         filtered_followers = filter_human_accounts(list(followers))
-        filename = f'{original_user}.xlsx'
+        filename = f'{origin_user}.xlsx'
 
         # Old Code
         # if os.path.exists(filename):

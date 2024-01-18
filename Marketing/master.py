@@ -56,8 +56,8 @@ def unfollowLogic(account, password, blocked):
 
 def instaActionsLogic(account, password, blocked):
     now = datetime.now(eastern)
-
-    if ((now.hour >= 6   and processed_accounts_today[account]["follow"] < 5)) and not blocked and instaActions_count.get(account, 0) < 5 and can_run(account, 'instaActions'):
+    
+    if ((now.hour >= 6   and processed_accounts_today[account]["follow"] < 4)):
         if os.path.exists(f"{account}.xlsx"):
             followCount = processed_accounts_today[account]["follow"]
             try:
@@ -80,18 +80,19 @@ def createFollowerListLogic(account, password, scrapeUser, blocked):
     elif os.path.exists(f"{account}.xlsx"):
         df = pd.read_excel(f"{account}.xlsx")
         not_contacted_count = len(df[df['Contacted'] == False])
-        if not_contacted_count <= 100  and not blocked and can_run(account, 'createFollowerList'):
-            try:
-                scrape(account, password, scrapeUser)
-            except Exception as e:
-                logging.error(f"Error with scrape for account {account}: {e}")
+        if (not_contacted_count <= 100  and now.hour < 6)or(not_contacted_count <= 20) :
+            if not blocked and can_run(account, 'createFollowerList'):
+                try:
+                    scrape(account, password, scrapeUser)
+                except Exception as e:
+                    logging.error(f"Error with scrape for account {account}: {e}")
 
 def process_account(account, password, scrapeUser, blocked):
     try:
         createFollowerListLogic(account, password, scrapeUser, blocked)
         unfollowLogic(account, password, blocked)
-        if processed_accounts_today[account]["follow"] < 5:
-            instaActionsLogic(account, password, blocked)
+        # if processed_accounts_today[account]["follow"] < 3:
+        instaActionsLogic(account, password, blocked)
         
     except Exception as e:
         logging.error(f"Error processing account {account}: {e}")
@@ -122,7 +123,7 @@ def main():
                 if account not in processed_accounts_today:
                     processed_accounts_today[account] = { "follow": 0}
 
-                if processed_accounts_today[account]["follow"] > 5:
+                if processed_accounts_today[account]["follow"] > 4:
                     
                     continue
 

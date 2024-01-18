@@ -39,7 +39,7 @@ def instaActionsFunction(username, password):
         df = pd.read_excel(f'{username}.xlsx')
         
         if len(df.loc[df['Contacted'] == False]) > 0:
-            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:20]
+            users_to_contact = df.loc[df['Contacted'] == False, 'Follower'][:10]
 
             for user in users_to_contact:
                 
@@ -61,7 +61,7 @@ def instaActionsFunction(username, password):
                 except:
                     couldntFollowCount += 1
                     print("Could Not Follow")
-        if(couldntFollowCount > 15):
+        if(couldntFollowCount > 9):
             send_discord_message(suspended_url, f"${username} is likely suspended")
 
         # Load the master account sheet
